@@ -5,7 +5,10 @@
 
 ## How to use
 
-1. Run the program (exe or execute the script, for executing the script Python should be installed)
+1. Run the program (Execute the script, for executing the script Python should be installed)
+```
+	python .\key_alarm.py
+```
 2. Press on the trigger button. (The trigger button will remain pressed)
 3. Press the trigger button to initiate the countdown timer.
 4. When alarm rings, either retrigger by pressing the designated button or kill the thread by pressing shift+x
