@@ -1,5 +1,5 @@
 # key_alarm
-## Custom countdown tool
+## Custom countdown utility
 
 ![Key Alarm](https://github.com/shashankm28/key_alarm/blob/master/assets/Key_alarm_screenshot.PNG "Key Alarm")
 
