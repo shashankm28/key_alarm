@@ -49,6 +49,11 @@ def disable_input():
     countdown_timer_input.config(state = 'disabled')
     alarm_time_input.config(state = 'disabled')
 
+def enable_input():
+    trigger_key_input.config(state = 'normal')
+    countdown_timer_input.config(state = 'normal')
+    alarm_time_input.config(state = 'normal')
+
 def save(key, countdown, alarm):
     global trigger_key, countdown_timer, alarm_time
     trigger_key = key
@@ -59,6 +64,10 @@ def save(key, countdown, alarm):
 def trigger():
     global trigger_thread
     disable_input()
+
+    trigger_key = trigger_key_input.get()
+    countdown_timer = countdown_timer_input.get()
+    
     split_time = countdown_timer.split(":")
     cnt_dwn_hours = int(split_time[0])
     cnt_dwn_minutes = int(split_time[1])
@@ -78,12 +87,14 @@ def trigger():
             if trigger_thread != None:
                 trigger_thread = None
                 status_label.configure(text = "Thread closed")
+            enable_input()
             status_label.configure(text = "Press trigger button to start again!!")
             break
 
 def alarm():
     status_label.configure(text = "Alarm!!")
     winsound.PlaySound('./assets/alarm.wav', winsound.SND_ASYNC)
+    alarm_time = alarm_time_input.get()
     loop_timer = time.time() + int(alarm_time)
     while True:
         if time.time() > loop_timer:
