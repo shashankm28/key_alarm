@@ -48,11 +48,13 @@ def disable_input():
     trigger_key_input.config(state = 'disabled')
     countdown_timer_input.config(state = 'disabled')
     alarm_time_input.config(state = 'disabled')
+    enable_alert_check.config(state = 'disabled')
 
 def enable_input():
     trigger_key_input.config(state = 'normal')
     countdown_timer_input.config(state = 'normal')
     alarm_time_input.config(state = 'normal')
+    enable_alert_check.config(state = 'normal')
 
 def save(key, countdown, alarm):
     global trigger_key, countdown_timer, alarm_time
@@ -62,7 +64,7 @@ def save(key, countdown, alarm):
     write_config_file(key, countdown, alarm)
 
 def trigger():
-    global trigger_thread
+    global trigger_thread, enable_alert
     disable_input()
 
     trigger_key = trigger_key_input.get()
@@ -80,7 +82,8 @@ def trigger():
             delay = (alarm_at - now).total_seconds()
             trigger_thread = threading.Timer(delay, alarm)
             trigger_thread.start()
-            winsound.PlaySound("SystemExclamation", winsound.SND_ALIAS)
+            if enable_alert.get():
+                winsound.PlaySound("SystemExclamation", winsound.SND_ALIAS)
             break
         if keyboard.is_pressed('shift+x'):
             winsound.PlaySound("SystemExit", winsound.SND_ALIAS)
@@ -111,6 +114,8 @@ root.geometry('400x220')
 icon = PhotoImage(file = './assets/alarm.png')
 root.iconphoto(False, icon)
 
+enable_alert = IntVar(value = 1)
+
 trigger_key_label = Label(root, text = "Trigger key", width = 22, anchor = 'w')
 trigger_key_input = Entry(root, width = 20)
 trigger_key_input.insert(0, trigger_key)
@@ -127,6 +132,7 @@ info_label_1 = Label(root, text = 'To stop background process/trigger press: shi
 info_label_2 = Label(root, text = 'To run again please press Trigger button again.')
 info_label_3 = Label(root, text = 'Created by @shashankm28 (Github/Instagram)')
 
+enable_alert_check = Checkbutton(root, text = 'Enable alert on trigger', variable = enable_alert)
 save_button = Button(root, text = "Save config", command = lambda: save(trigger_key_input.get(), countdown_timer_input.get(), alarm_time_input.get()))
 trigger_button = Button(root, text = "Trigger", command = trigger)
 
@@ -136,6 +142,7 @@ countdown_timer_label.grid(row = 1, column = 0, padx = 10, pady = 2.5)
 countdown_timer_input.grid(row = 1, column = 1, padx = 10, pady = 2.5)
 alarm_time_label.grid(row = 2, column = 0, padx = 10, pady = 2.5)
 alarm_time_input.grid(row = 2, column = 1, padx = 10, pady = 2.5)
+enable_alert_check.grid(row = 3, column = 0, padx = 10, pady = 2.5, sticky = W)
 save_button.grid(row = 3, column = 1, padx = 10, pady = 2.5, sticky = W)
 trigger_button.grid(row = 3, column = 1, padx = 10, pady = 2.5, sticky = E)
 
