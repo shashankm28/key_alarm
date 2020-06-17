@@ -100,6 +100,11 @@ def alarm():
     alarm_time = alarm_time_input.get()
     loop_timer = time.time() + int(alarm_time)
     while True:
+        if keyboard.is_pressed(trigger_key):
+            trigger()
+            winsound.PlaySound(None, winsound.SND_PURGE)
+            status_label.configure(text = "Re-triggered")
+            break
         if time.time() > loop_timer:
             winsound.PlaySound(None, winsound.SND_PURGE)
             status_label.configure(text = "Press " + trigger_key + " to start again or shift+x to stop the background process.")
